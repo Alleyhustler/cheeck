@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CheekGPT - Advanced AI Meme Oracle</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=Love+Light&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+
+
+
+  <style>
+    :root {
+      --primary: #b09eff;
+      --secondary: #725d7d;
+      --terminal-green: #9a00ff;
+      --background-dark: #050007;
+      --background-panel: #181127;
+      --text-light: #e2e8f0;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #ffffff;
+      background-image: 
+        radial-gradient(circle at 25px 25px, rgba(190, 124, 200, 0.1) 2px, transparent 0),
+        radial-gradient(circle at 75px 75px, rgba(137, 78, 141, 0.063) 2px, transparent 0);
+      background-size: 100px 100px;
+      color: #501156;
+        font-family: "Outfit", sans-serif;
+
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(to right, var(--primary), var(--secondary), var(--primary));
+      z-index: 1000;
+      animation: scanline 3s infinite;
+    }
+
+    @keyframes scanline {
+      0% { opacity: 0; top: 0; }
+      5% { opacity: 0.8; }
+      10% { opacity: 0; }
+      100% { opacity: 0; top: 100%; }
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid rgb(122 84 142 / 30%);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo h1 {
+  font-family: "Love Light", cursive;
+
+
+      font-size: 2.25rem;
+      margin-left: 0.5rem;
+      color: var(--primary);
+      text-shadow: 0 0 10px rgba(0, 255, 153, 0.5);
+    }
+
+    .logo img {
+      height: 80px;
+      width: 80px;
+      animation: pulse 2s infinite;
+      filter: brightness(1); /* makes images darker */
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .status-bar {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      margin-right: 1rem;
+    }
+
+    .status-dot {
+      height: 10px;
+      width: 10px;
+      border-radius: 50%;
+      background-color: var(--primary);
+      margin-right: 0.5rem;
+      animation: blink 1.5s infinite;
+    }
+
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+
+    .main-content {
+      display: flex;
+      position: relative;
+      z-index: 1;
+      gap: 2rem;
+    }
+
+    .side-logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 1rem;
+    }
+
+    .side-logo img {
+      width: 420px;
+      height: 420px;
+      margin-bottom: 1rem;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .content-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .tagline {
+      font-size: 1.2rem;
+      color: #501156;
+      margin-bottom: 2rem;
+      max-width: 600px;
+      text-align: center;
+    }
+
+    .input-container {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .input-wrapper {
+      display: flex;
+      width: 100%;
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgb(122 84 142 / 30%);
+    }
+
+    #userInput {
+      flex-grow: 1;
+      padding: 1.25rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      outline: none;
+      background-color: var(--background-panel);
+      color: var(--text-light);
+  font-family: "Outfit", sans-serif;
+
+    }
+
+    #userInput::placeholder {
+      color: rgba(226, 232, 240, 0.6);
+    }
+
+    .submit-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 1.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background: linear-gradient(135deg, #00e68a, #0066cc);
+    }
+
+    .input-controls {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+    }
+
+    .function-btn {
+      background-color: transparent;
+      border: 1px solid rgb(122 84 142 / 30%);
+      color: var(--text-light);
+      border-radius: 6px;
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .function-btn:hover {
+      background-color: rgba(0, 255, 153, 0.1);
+    }
+
+    .terminal-container {
+      width: 100%;
+      max-width: 800px;
+      border-radius: 12px;
+      background-color: var(--background-panel);
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7);
+      border: 1px solid rgb(122 84 142 / 30%);
+      margin-bottom: 2rem;
+    }
+
+    .terminal-header {
+      background: linear-gradient(to right, #0a0d14, #131b2c);
+      padding: 0.5rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgb(122 84 142 / 30%);
+    }
+
+    .terminal-title {
+  font-family: "Outfit", sans-serif;
+
+      font-size: 0.875rem;
+      color: var(--primary);
+    }
+
+    .terminal-controls {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .terminal-btn {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .terminal-close { background-color: #ff5f56; }
+    .terminal-minimize { background-color: #ffbd2e; }
+    .terminal-expand { background-color: #27c93f; }
+
+    .terminal-content {
+      padding: 1.5rem;
+  font-family: "Outfit", sans-serif;
+
+      min-height: 200px;
+      max-height: 400px;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    #response {
+      white-space: pre-wrap;
+      font-size: 1.1rem;
+      color: var(--terminal-green);
+      line-height: 1.6;
+      position: relative;
+    }
+
+    #response::before {
+      content: "$ ";
+      color: var(--primary);
+    }
+
+    .typing-indicator {
+      display: inline-block;
+      width: 12px;
+      height: 20px;
+      background-color: var(--primary);
+      margin-left: 5px;
+      animation: blink 1s infinite;
+    }
+
+    .coordinates {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      font-size: 0.75rem;
+      color: rgba(226, 232, 240, 0.4);
+  font-family: "Outfit", sans-serif;
+
+    }
+
+    .security-bar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 0.75rem 1.5rem;
+      background-color: #23072c0d;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgb(122 84 142 / 30%);
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .security-status {
+      display: flex;
+      align-items: center;
+      margin-right: 2rem;
+    }
+
+    .security-status-icon {
+      margin-right: 0.5rem;
+      color: var(--primary);
+    }
+
+    .security-progress {
+      flex-grow: 1;
+      height: 4px;
+      background-color: rgba(226, 232, 240, 0.1);
+      border-radius: 2px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .security-progress::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 30%;
+      background-color: var(--primary);
+      animation: progress 3s infinite;
+    }
+
+    @keyframes progress {
+      0% { left: -30%; }
+      100% { left: 100%; }
+    }
+
+    .matrix-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.05;
+      z-index: 0;
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 1.5rem 0;
+      text-align: center;
+      font-size: 0.875rem;
+      color: #501156;
+      border-top: 1px solid rgb(122 84 142 / 30%);
+    }
+
+    .tech-badges {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .tech-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+      background-color:rgba(153, 150, 171, 0.882);
+      border: 1px solid 1px solid rgb(122 84 142 / 30%);
+      font-size: 0.75rem;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        width: 95%;
+        padding: 1rem 0.5rem;
+      }
+
+      .logo h1 {
+        font-size: 1.75rem;
+      }
+
+      .main-content {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .side-logo {
+        margin-bottom: 1rem;
+      }
+
+      .side-logo img {
+        width: 100px;
+        height: 100px;
+      }
+
+      .terminal-content {
+        padding: 1rem;
+      }
+
+      #response {
+        font-size: 1rem;
+      }
+
+      .status-bar {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="matrixCanvas" class="matrix-background"></canvas>
+  
+  <div class="container">
+    <header>
+      <div class="logo">
+        <h1>CheekGPT</h1>
+      </div>
+      <div class="status-bar">
+        <div class="status-indicator">
+          <div class="status-dot"></div>
+          <span>ONLINE</span>
+        </div>
+        <div class="status-indicator">
+          <i class="fas fa-shield-alt" style="color: var(--primary); margin-right: 0.5rem;"></i>
+          <span>SECURED</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <!-- Added side logo -->
+      <div class="side-logo">
+        <img src="New Project (5) (3).png" alt="Side Logo" />
+        <div style="font-family: 'Courier New', monospace; font-size: 0.9rem; text-align: center;">
+        </div>
+      </div>
+      
+      <!-- Main content area -->
+      <div class="content-area">
+        <p class="tagline">A fat Ass Cheek Will reply to your questions. (CA HERE)</p>
+        
+        <div class="security-bar">
+          <div class="security-status">
+            <i class="fas fa-lock security-status-icon"></i>
+            <span>SECURE CONNECTION</span>
+          </div>
+          <div class="security-progress"></div>
+        </div>
+
+        <div class="input-container">
+          <div class="input-wrapper">
+            <input type="text" id="userInput" placeholder="Enter your ASS query..." />
+            <button class="submit-btn" onclick="askCheekGPT()">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </div>
+          <div class="input-controls">
+
+          </div>
+        </div>
+
+        <div class="terminal-container">
+          <div class="terminal-header">
+            <div class="terminal-title">CheekGPT_Terminal v4.20.69 - NEURAL RESPONSE INTERFACE</div>
+            <div class="terminal-controls">
+              <div class="terminal-btn terminal-close"></div>
+              <div class="terminal-btn terminal-minimize"></div>
+              <div class="terminal-btn terminal-expand"></div>
+            </div>
+          </div>
+          <div class="terminal-content">
+            <div id="response">System initialized. Neural pathways established. Awaiting your questionable input...</div>
+            <div class="coordinates">LAT: 38.897957 | LONG: -77.036560 | SECURE CHANNEL</div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <footer>
+    <div>© 2025 CheekGPT | TOP SECRET | CLASSIFIED NEURAL NETWORK</div>
+    <div class="tech-badges">
+      <span class="tech-badge">AES-256</span>
+      <span class="tech-badge">QUANTUM SECURED</span>
+      <span class="tech-badge">NEURAL-LINK</span>
+      <a href="https://x.com/CheekGpt" target="_blank" class="tech-badge">TWITTER</a>
+    </div>
+  </footer>
+
+  <script>
+    // Matrix background effect
+    const canvas = document.getElementById('matrixCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    const characters = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン01010101';
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    
+    const drops = [];
+    for (let i = 0; i < columns; i++) {
+      drops[i] = Math.floor(Math.random() * canvas.height);
+    }
+    
+    function drawMatrix() {
+      ctx.fillStyle = '#501156';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      ctx.fillStyle = '#501156';
+      ctx.font = `${fontSize}px monospace`;
+      
+      for (let i = 0; i < drops.length; i++) {
+        const text = characters[Math.floor(Math.random() * characters.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        
+        drops[i]++;
+      }
+    }
+    
+    setInterval(drawMatrix, 50);
+    
+    // Responsive resize
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+    
+    // Terminal controls
+    document.querySelectorAll('.terminal-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (btn.classList.contains('terminal-close')) {
+          document.querySelector('.terminal-content').style.height = '0';
+          setTimeout(() => {
+            document.querySelector('.terminal-content').style.height = '';
+          }, 300);
+        }
+      });
+    });
+
+    // Main functionality
+    async function askCheekGPT() {
+      const input = document.getElementById("userInput").value;
+      if (!input.trim()) return;
+      
+      const responseBox = document.getElementById("response");
+      const originalResponse = responseBox.textContent;
+      
+      // Clear input after submission
+      document.getElementById("userInput").value = "";
+      
+      // Show "typing" effect
+      responseBox.innerHTML = `Processing request... <span class="typing-indicator"></span>`;
+      
+      try {
+        // Simulate secure connection
+        await new Promise(resolve => setTimeout(resolve, 800));
+        
+        // Display "encrypting" message
+        responseBox.innerHTML = `Encrypting request... <span class="typing-indicator"></span>`;
+        await new Promise(resolve => setTimeout(resolve, 600));
+        
+        // Display "analyzing" message
+        responseBox.innerHTML = `Analyzing input pattern... <span class="typing-indicator"></span>`;
+        await new Promise(resolve => setTimeout(resolve, 700));
+        
+        const res = await fetch("https://api.openai.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer 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"
+          },
+          body: JSON.stringify({
+            model: "gpt-4o-mini",
+            messages: [
+              {
+                role: "system",
+                content: "You're CheekGPT, a sarcastic, meme-loving AI with no chill. Always reply with sass, humor, and irony. Roast the user if needed. Keep it fun."
+              },
+              {
+                role: "user",
+                content: input
+              }
+            ]
+          })
+        });
+
+        const data = await res.json();
+
+        if (data.choices && data.choices[0]) {
+          // Typewriter effect
+          const textToType = data.choices[0].message.content;
+          let i = 0;
+          responseBox.textContent = "";
+          
+          const typeEffect = setInterval(() => {
+            if (i < textToType.length) {
+              responseBox.textContent += textToType.charAt(i);
+              i++;
+            } else {
+              clearInterval(typeEffect);
+            }
+          }, 15);
+          
+        } else {
+          responseBox.textContent = "Either I broke, or the API did. Probably your fault though.";
+        }
+      } catch (error) {
+        responseBox.textContent = "Connection failed. The internet gods are angry. Try sacrificing a router.";
+        console.error("Error:", error);
+      }
+    }
+
+    // Enable pressing Enter to submit
+    document.getElementById("userInput").addEventListener("keypress", function(event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        askCheekGPT();
+      }
+    });
+
+    // Random coordinates simulation
+    setInterval(() => {
+      const coords = document.querySelector('.coordinates');
+      const lat = (38.897957 + Math.random() * 0.001).toFixed(6);
+      const long = (-77.036560 + Math.random() * 0.001).toFixed(6);
+      coords.textContent = `LAT: ${lat} | LONG: ${long} | SECURE CHANNEL`;
+    }, 3000);
+  </script>
+</body>
+</html>
